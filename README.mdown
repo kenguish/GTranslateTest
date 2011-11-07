@@ -1,0 +1,9 @@
+GTranslateTest
+==============
+November 7, 2011
+
+This is a simple iOS project to access the Google Translate voice API.
+
+Project should work with iOS 4+ and above.
+
+[![](https://github.com/kenguish/GTranslateTest/raw/master/Screenshot.png)](https://github.com/kenguish/GTranslateTest/raw/master/Screenshot.png)
