@@ -15,16 +15,14 @@
 @implementation ViewController
 @synthesize theTextField, theButton, queue, audioData;
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
 }
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
 
     // init queue
@@ -34,30 +32,30 @@
     
 }
 
-- (void)viewDidUnload
-{
+- (void)viewDidUnload {
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
+- (void)viewWillDisappear:(BOOL)animated {
+    if (audioPlayer != nil) {
+        [audioPlayer stop];
+        [audioPlayer release];
+    }
+    
 	[super viewWillDisappear:animated];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 }
 
@@ -81,22 +79,24 @@
     
     
     [self.queue addOperation:request];
-
-    
 }
 
 - (IBAction)requestDone:(ASIHTTPRequest *)request {
-    
-    
     self.audioData = [request responseData];
     
     if (self.audioData != nil) {
         NSError *error;
-		AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithData: self.audioData error: &error];
+        
+        if (audioPlayer != nil) {
+            [audioPlayer stop];
+            [audioPlayer release];
+            audioPlayer = nil;
+        }
+        
+		audioPlayer = [[AVAudioPlayer alloc] initWithData: self.audioData error: &error];
 		audioPlayer.numberOfLoops = 0;
 		
 		[audioPlayer play];
-
     }
 }
 
@@ -106,8 +106,7 @@
 
 #pragma mark - Other delegates
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
 }

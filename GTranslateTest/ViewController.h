@@ -16,6 +16,8 @@
     NSOperationQueue *queue;
     
     NSData *audioData;
+    
+    AVAudioPlayer *audioPlayer;
 }
 @property (nonatomic, retain) IBOutlet UITextView *theTextField;
 @property (nonatomic, retain) IBOutlet UIButton *theButton;
